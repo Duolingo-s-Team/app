@@ -1,0 +1,75 @@
+package com.duolingo.client;
+
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class AdapterDatos extends RecyclerView.Adapter<AdapterDatos.ViewHolderDatos> {
+
+
+    ArrayList<Category> arrayCategory;
+
+    public AdapterDatos(ArrayList<Category> datos) {
+        this.arrayCategory = datos;
+    }
+
+    @Override
+    public AdapterDatos.ViewHolderDatos onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list, null, false);
+        return new ViewHolderDatos(view);
+    }
+    @Override
+    public void onBindViewHolder(@NonNull AdapterDatos.ViewHolderDatos holder, int position) {
+
+        holder.asignarDatos(arrayCategory.get(position).getCategory_name(), levelCounter(arrayCategory.get(position).getLevels()));
+        /*holder.b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });*/
+    }
+
+    @Override
+    public int getItemCount() {
+        return arrayCategory.size();
+    }
+
+    public class ViewHolderDatos extends RecyclerView.ViewHolder{
+
+        Button b;
+        TextView tv;
+        public ViewHolderDatos(@NonNull View itemView) {
+            super(itemView);
+            tv = itemView.findViewById(R.id.levelsTextView);
+            b = (Button) itemView.findViewById(R.id.categoryButton);
+        }
+
+        void asignarDatos(String s, int completed) {
+            b.setText(s);
+            tv.setText(String.valueOf(completed));
+        }
+    }
+
+    // Funcion que devuelve el total niveles completados
+    public int levelCounter(List<Level> datos){
+        int num=0;
+        for (Level l : datos) {
+            Log.v("Level name: ", l.getLevel_name());
+            if(l.isComplete()){
+                num++;
+            } else {
+                break;
+            }
+        }
+        return num;
+        }
+}
