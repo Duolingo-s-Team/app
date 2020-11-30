@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
         PerfilFragment pf= new PerfilFragment();
         BotigaFragment bf= new BotigaFragment();
 
+
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
 

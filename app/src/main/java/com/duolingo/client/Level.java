@@ -1,5 +1,9 @@
 package com.duolingo.client;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.io.Serializable;
+
 public class Level {
 
     private long level_id;
@@ -8,9 +12,13 @@ public class Level {
 
     private boolean isComplete;
 
+    private List<Exercise> exercises;
+
     // Constructors
+
+
     public Level() {
-        // Empty Constructor
+        this.exercises = new ArrayList<Exercise>();
     }
 
     public Level(String level_name) {
@@ -46,4 +54,17 @@ public class Level {
     public void setComplete(boolean isComplete) {
         this.isComplete = isComplete;
     }
+
+    public List<Exercise> getExercises() {
+        return exercises;
+    }
+
+    public void setExercises(List<Exercise> exercises) {
+        this.exercises = exercises;
+    }
+
+    public void addExercise(Exercise exercise) {
+        this.exercises.add(exercise);
+    }
+
 }

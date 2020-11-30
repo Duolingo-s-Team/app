@@ -1,7 +1,6 @@
 package com.duolingo.client;
-
-import java.io.File;
-import java.io.FileInputStream;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 public class Exercise {
 
@@ -12,15 +11,19 @@ public class Exercise {
     private byte[] content;
 
     // Constructors
-    public Exercise() {
-        // Empty Constructor
-    }
+
 
     public Exercise(String exercise_name, int exercise_exp, byte[] content) {
         super();
         this.exercise_name = exercise_name;
         this.exercise_exp = exercise_exp;
         this.content = content;
+    }
+    public Exercise(String exercise_name, int exercise_exp) {
+        super();
+        this.exercise_name = exercise_name;
+        this.exercise_exp = exercise_exp;
+
     }
 
     // Getters && Setters:
@@ -51,5 +54,7 @@ public class Exercise {
     public byte[] getContent() {
         return content;
     }
+
+
 
 }
