@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.Serializable;
 
-public class Level {
+public class Level implements Serializable{
 
     private long level_id;
 
@@ -16,7 +16,9 @@ public class Level {
 
     // Constructors
 
-
+    public static class ChildClass implements Serializable {
+        public ChildClass() {}
+    }
     public Level() {
         this.exercises = new ArrayList<Exercise>();
     }

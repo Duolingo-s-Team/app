@@ -105,7 +105,7 @@ public class CursFragment extends Fragment {
                     Course cursActual = adapterCI.getItem(position);
                     List<Category> categories = cursActual.getCategories();
 
-                    Log.v("DEBUG", "cat:" + categories.size());
+
                     for (int i = 0; i < categories.size(); i++) {
                         c = categories.get(i);
                         datosAuxCurso.add(c);
@@ -130,6 +130,7 @@ public class CursFragment extends Fragment {
     private void llenarDatos() {
 
         ArrayList<Exercise>exercises = new ArrayList<Exercise>();
+        ArrayList<Exercise>exercises1 = new ArrayList<Exercise>();
         Exercise e1=new Exercise("e1", 5);
         Exercise e2=new Exercise("e2", 5);
         Exercise e3=new Exercise("e3", 5);
@@ -140,6 +141,8 @@ public class CursFragment extends Fragment {
         exercises.add(e3);
         exercises.add(e4);
         exercises.add(e5);
+        exercises1.add(e1);
+        exercises1.add(e2);
         Category c1 = new Category("Mascotas");
         Level l1 = new Level("Level 1", true);
         Level l2 = new Level("Level 2", true);
@@ -153,7 +156,7 @@ public class CursFragment extends Fragment {
         Category c2 = new Category("Viajes");
         Level l5 = new Level("Level 1.1", true);
         Level l6 = new Level("Level 1.2", false);
-        l6.setExercises(exercises);
+        l6.setExercises(exercises1);
         Level l7 = new Level("Level 1.3", false);
         Level l8 = new Level("Level 1.4", false);
         ArrayList<Level> lev2=new ArrayList<>();

@@ -27,7 +27,6 @@ public class AdapterDatos extends RecyclerView.Adapter<AdapterDatos.ViewHolderDa
 
     public AdapterDatos(ArrayList<Category> datos) {
         this.arrayCategory = datos;
-
     }
     public AdapterDatos() {
 
@@ -46,8 +45,9 @@ public class AdapterDatos extends RecyclerView.Adapter<AdapterDatos.ViewHolderDa
             public void onClick(View v) {
 
                 Level level=lastLevel(arrayCategory.get(position).getLevels());
-                exercises= (ArrayList<Exercise>) level.getExercises();
                 intent=new Intent(v.getContext(),ExerciseActivity.class);
+                intent.putExtra("level",level);
+                intent.putExtra("pos",0);
                 v.getContext().startActivity(intent);
 
             }

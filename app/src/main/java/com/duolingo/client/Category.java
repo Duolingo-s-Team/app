@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.Serializable;
 
-public class Category {
+public class Category implements Serializable{
 
     private long category_id;
 

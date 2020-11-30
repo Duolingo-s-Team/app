@@ -2,7 +2,9 @@ package com.duolingo.client;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Exercise {
+import java.io.Serializable;
+
+public class Exercise implements Serializable {
 
     private long exercise_id;
 
