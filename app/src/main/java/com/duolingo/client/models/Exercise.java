@@ -1,6 +1,10 @@
+<<<<<<< HEAD:app/src/main/java/com/duolingo/client/Exercise.java
 package com.duolingo.client;
 import android.os.Parcel;
 import android.os.Parcelable;
+=======
+package com.duolingo.client.models;
+>>>>>>> 475c0dc (Creation file "config.xml" with IP, port, username and password.):app/src/main/java/com/duolingo/client/models/Exercise.java
 
 import java.io.Serializable;
 

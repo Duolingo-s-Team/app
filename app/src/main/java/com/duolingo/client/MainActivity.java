@@ -1,14 +1,23 @@
 package com.duolingo.client;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
+=======
+import java.io.File;
+import java.io.IOException;
+
+import xml.XML;
+>>>>>>> 475c0dc (Creation file "config.xml" with IP, port, username and password.)
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,7 +26,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+<<<<<<< HEAD
 
+=======
+        File file = new File(getFilesDir()+"config.xml");
+        if (!file.exists()) {
+                XML createXML = new XML();
+                createXML.readXML(getFilesDir());
+        }
+>>>>>>> 475c0dc (Creation file "config.xml" with IP, port, username and password.)
 
         final Button buttonCurs=findViewById(R.id.curs);
         final Button buttonLliga=findViewById(R.id.lliga);
