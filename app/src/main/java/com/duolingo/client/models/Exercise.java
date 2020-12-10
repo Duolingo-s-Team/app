@@ -1,4 +1,4 @@
-package com.duolingo.client;
+package com.duolingo.client.models;
 
 import java.io.File;
 import java.io.FileInputStream;

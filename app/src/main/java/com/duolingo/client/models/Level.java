@@ -1,4 +1,4 @@
-package com.duolingo.client;
+package com.duolingo.client.models;
 
 public class Level {
 
