@@ -16,6 +16,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.duolingo.client.rmi.models.Category;
+import com.duolingo.client.rmi.models.Exercise;
+import com.duolingo.client.rmi.models.Level;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,12 +48,11 @@ public class AdapterDatos extends RecyclerView.Adapter<AdapterDatos.ViewHolderDa
             @Override
             public void onClick(View v) {
 
-                Level level=lastLevel(arrayCategory.get(position).getLevels());
+                Level level = lastLevel(arrayCategory.get(position).getLevels());
                 intent=new Intent(v.getContext(),ExerciseActivity.class);
-                intent.putExtra("level",level);
+                intent.putExtra("level", level);
                 intent.putExtra("pos",0);
                 v.getContext().startActivity(intent);
-
             }
         });
     }

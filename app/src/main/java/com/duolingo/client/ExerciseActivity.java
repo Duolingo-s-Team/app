@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.duolingo.client.rmi.models.Exercise;
+import com.duolingo.client.rmi.models.Level;
+
 import java.util.ArrayList;
 
 public class ExerciseActivity extends AppCompatActivity {

@@ -1,6 +1,7 @@
 package com.duolingo.client;
 
 import android.annotation.SuppressLint;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,22 +20,32 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import com.duolingo.client.rmi.ClienteRMI;
+
+import com.duolingo.client.rmi.models.Category;
+import com.duolingo.client.rmi.models.Course;
+
+import net.sf.lipermi.net.Client;
+
+import java.lang.invoke.MethodHandles;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public class CursFragment extends Fragment {
 
+    public static ClienteRMI clienteRMI = new ClienteRMI();
 
-    ArrayList<Category> arrayCategoryCurs1;
-    ArrayList<Category> arrayCategoryCurs2 ;
-    ArrayList<Category> datosAuxCurso = new ArrayList<>();
     RecyclerView recycler;
-    Course course1;
-    Course course;
-    ArrayList<Course> arrayCourse;
+
+    public ArrayList<Category> datosAuxCurso = new ArrayList<>();
+    public static ArrayList<Course> arrayCourse = new ArrayList<>();
+
     ArrayList<Course> arrayCourseIniciat;
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,16 +59,20 @@ public class CursFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        arrayCourse.clear();
+        arrayCourse.add(new Course("Loading", "Please wait..."));
 
+        try {
+            arrayCourse = parseToCourse(new ClienteRMI().execute().get(10, TimeUnit.SECONDS));
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            System.out.println("Time out");
+        }
 
-        arrayCategoryCurs1 = new ArrayList<>();
-        arrayCategoryCurs2 = new ArrayList<>();
-        arrayCourse=new ArrayList<Course>();
-        arrayCourseIniciat=new ArrayList<Course>();
-
-        llenarDatos();
-        llenarCourse();
-
+        arrayCourseIniciat = new ArrayList<Course>();
 
         recycler = view.findViewById(R.id.RecyclerId);
         recycler.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -65,14 +80,13 @@ public class CursFragment extends Fragment {
         Spinner spinnerCursosTotales= view.findViewById(R.id.spinnerCursosTotals);
         Spinner spinnerCursosIniciados= view.findViewById(R.id.spinnerCursosIniciats);
 
-
         ArrayAdapter<Course> adapterCT = new ArrayAdapter<Course>(this.getContext(), android.R.layout.simple_spinner_item, arrayCourse);
         spinnerCursosTotales.setAdapter(adapterCT);
 
         ArrayAdapter<Course> adapterCI= new ArrayAdapter<Course>(this.getContext(),android.R.layout.simple_spinner_item, arrayCourseIniciat);
         spinnerCursosIniciados.setAdapter(adapterCI);
 
-        //detecta cuando selecciono algo nuevo en el spinner
+        // detecta cuando selecciono algo nuevo en el spinner
          spinnerCursosTotales.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
@@ -84,27 +98,21 @@ public class CursFragment extends Fragment {
                     adapterCT.remove(object);
                     spinnerCursosTotales.setAdapter(adapterCT);
                 }
-
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
+            public void onNothingSelected(AdapterView<?> adapterView) {}
         });
-
 
         spinnerCursosIniciados.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-
 
                 if(position!=0) {
                     Category c;
                     datosAuxCurso.clear();
                     Course cursActual = adapterCI.getItem(position);
                     List<Category> categories = cursActual.getCategories();
-
 
                     for (int i = 0; i < categories.size(); i++) {
                         c = categories.get(i);
@@ -115,91 +123,29 @@ public class CursFragment extends Fragment {
                     recycler.setAdapter(adapter);
 
                 }
-
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
+            public void onNothingSelected(AdapterView<?> adapterView) {}
         });
 
-
     }
 
-    private void llenarDatos() {
+    public ArrayList<Course> parseToCourse(ArrayList<String> courseNames) {
+        ArrayList<Course> courses = new ArrayList<>();
 
-        ArrayList<Exercise>exercises = new ArrayList<Exercise>();
-        ArrayList<Exercise>exercises1 = new ArrayList<Exercise>();
-        Exercise e1=new Exercise("e1", 5);
-        Exercise e2=new Exercise("e2", 5);
-        Exercise e3=new Exercise("e3", 5);
-        Exercise e4=new Exercise("e4", 5);
-        Exercise e5=new Exercise("e5", 5);
-        exercises.add(e1);
-        exercises.add(e2);
-        exercises.add(e3);
-        exercises.add(e4);
-        exercises.add(e5);
-        exercises1.add(e1);
-        exercises1.add(e2);
-        Category c1 = new Category("Mascotas");
-        Level l1 = new Level("Level 1", true);
-        Level l2 = new Level("Level 2", true);
-        Level l3 = new Level("Level 3", false);
-        l3.setExercises(exercises);
-        Level l4 = new Level("Level 4", false);
-        ArrayList<Level> l = new ArrayList<>();
-        l.add(l1); l.add(l2); l.add(l3); l.add(l4);
-        c1.setLevels(l);
+        Scanner s;
+        for (String i : courseNames) {
+            s = new Scanner(i);
+            courses.add(
+                    new Course(
+                            Long.valueOf(s.next()),
+                            s.next(),
+                            s.next(),
+                            Boolean.valueOf(s.next())));
+            s.close();
+        }
 
-        Category c2 = new Category("Viajes");
-        Level l5 = new Level("Level 1.1", true);
-        Level l6 = new Level("Level 1.2", false);
-        l6.setExercises(exercises1);
-        Level l7 = new Level("Level 1.3", false);
-        Level l8 = new Level("Level 1.4", false);
-        ArrayList<Level> lev2=new ArrayList<>();
-        lev2.add(l5); lev2.add(l6); lev2.add(l7); lev2.add(l8);
-        c2.setLevels(lev2);
-
-        arrayCategoryCurs1.add(c1); arrayCategoryCurs1.add(c2);
-
-
-        Category c21 = new Category("Comida");
-        Level l21 = new Level("Level 5", true);
-        Level l22 = new Level("Level 6", true);
-        Level l23 = new Level("Level 7", false);
-        l23.setExercises(exercises);
-        Level l24 = new Level("Level 8", false);
-        ArrayList<Level> lev21 = new ArrayList<>();
-        lev21.add(l1); lev21.add(l2); lev21.add(l3); lev21.add(l4);
-        c21.setLevels(lev21);
-
-        Category c22 = new Category("Texto");
-        Level l25 = new Level("Level 5.1", true);
-        Level l26 = new Level("Level 6.2", true);
-        Level l27 = new Level("Level 7.3", true);
-        Level l28 = new Level("Level 8.4", false);
-        l28.setExercises(exercises);
-        ArrayList<Level> lev22=new ArrayList<>();
-        lev22.add(l25); lev22.add(l26); lev22.add(l27); lev22.add(l28);
-        c22.setLevels(lev22);
-
-        arrayCategoryCurs2.add(c21); arrayCategoryCurs2.add(c22);
-
-        course=new Course("Ingles",arrayCategoryCurs2);
-        course1=new Course("Japones",arrayCategoryCurs1);
+        return courses;
     }
-
-    public void llenarCourse(){
-
-        Course c=new Course("cursos totales",arrayCategoryCurs1);
-        Course c1=new Course("cursos iniciados",arrayCategoryCurs1);
-        arrayCourse.add(c);
-        arrayCourse.add(course);
-        arrayCourse.add(course1);
-        arrayCourseIniciat.add(c1);
-    }
-
 }

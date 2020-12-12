@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -17,8 +18,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         final Button buttonCurs=findViewById(R.id.curs);
         final Button buttonLliga=findViewById(R.id.lliga);
         final Button buttonBotiga=findViewById(R.id.botiga);
@@ -28,8 +27,6 @@ public class MainActivity extends AppCompatActivity {
         LligaFragment lf=new LligaFragment();
         PerfilFragment pf= new PerfilFragment();
         BotigaFragment bf= new BotigaFragment();
-
-
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
@@ -48,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
                 ft.commit();
             }
         });
-
 
         buttonLliga.setOnClickListener(new View.OnClickListener(){
 
@@ -86,8 +82,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
     }
-
 
 }
