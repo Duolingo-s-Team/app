@@ -120,16 +120,18 @@ public class CursFragment extends Fragment {
     public ArrayList<Course> parseToCourse(ArrayList<String> courseNames) {
         ArrayList<Course> courses = new ArrayList<>();
 
-        Scanner s;
-        for (String i : courseNames) {
-            s = new Scanner(i);
-            courses.add(
-                    new Course(
-                            Long.parseLong(s.next()),
-                            s.next(),
-                            s.next(),
-                            Boolean.valueOf(s.next())));
-            s.close();
+        if (courseNames != null) {
+            Scanner s;
+            for (String i : courseNames) {
+                s = new Scanner(i);
+                courses.add(
+                        new Course(
+                                Long.parseLong(s.next()),
+                                s.next(),
+                                s.next(),
+                                Boolean.valueOf(s.next())));
+                s.close();
+            }
         }
 
         return courses;
