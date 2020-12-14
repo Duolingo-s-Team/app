@@ -13,10 +13,11 @@ import com.duolingo.client.rmi.models.Exercise;
 import com.duolingo.client.rmi.models.Level;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ExerciseActivity extends AppCompatActivity {
     AdapterDatos ad=new AdapterDatos();
-    ArrayList<Exercise> arrayExercises ;
+    ArrayList<Exercise> arrayExercises;
     int pos;
     Level lvl;
     @Override
@@ -32,9 +33,8 @@ public class ExerciseActivity extends AppCompatActivity {
             if (extras != null) {
 
                pos=extras.getInt("pos");
-               Log.v("DEBUG",String.valueOf(pos));
                lvl= (Level) extras.getSerializable("level");
-               arrayExercises= (ArrayList<Exercise>) lvl.getExercises();
+               arrayExercises= (ArrayList<Exercise>) getMockupExercises(); // <---------------------------------------------------------------
             }
         }
 
@@ -58,5 +58,15 @@ public class ExerciseActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public List<Exercise> getMockupExercises() {
+        List<Exercise> exercises = new ArrayList<>();
+
+        for (int i = 1; i <= Math.random()*5+1; i++) {
+            exercises.add(new Exercise("Saludos 1", 25, "{\"Exercise_Type\":\"TIPUS_TEST\",\"sentenceToTranslate\":\"Hello, my name is Jason\",\"Correct_Answer\":\"Hola, me llamo es Jason\",\"Wrong_Answers\":[\"Hola, Jason me llamo yo\",\"Hola, mi nombre me llamo Jason\"]}"));
+        }
+
+        return exercises;
     }
 }

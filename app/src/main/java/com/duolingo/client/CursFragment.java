@@ -1,8 +1,13 @@
 package com.duolingo.client;
 
-import android.annotation.SuppressLint;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,25 +15,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
-
 import com.duolingo.client.rmi.ClienteRMI;
-
 import com.duolingo.client.rmi.models.Category;
 import com.duolingo.client.rmi.models.Course;
 
-import net.sf.lipermi.net.Client;
-
-import java.lang.invoke.MethodHandles;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -37,8 +27,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public class CursFragment extends Fragment {
-
-    public static ClienteRMI clienteRMI = new ClienteRMI();
 
     RecyclerView recycler;
 
@@ -64,15 +52,13 @@ public class CursFragment extends Fragment {
 
         try {
             arrayCourse = parseToCourse(new ClienteRMI().execute().get(10, TimeUnit.SECONDS));
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         } catch (TimeoutException e) {
             System.out.println("Time out");
         }
 
-        arrayCourseIniciat = new ArrayList<Course>();
+        arrayCourseIniciat = new ArrayList<>();
 
         recycler = view.findViewById(R.id.RecyclerId);
         recycler.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -80,10 +66,10 @@ public class CursFragment extends Fragment {
         Spinner spinnerCursosTotales= view.findViewById(R.id.spinnerCursosTotals);
         Spinner spinnerCursosIniciados= view.findViewById(R.id.spinnerCursosIniciats);
 
-        ArrayAdapter<Course> adapterCT = new ArrayAdapter<Course>(this.getContext(), android.R.layout.simple_spinner_item, arrayCourse);
+        ArrayAdapter<Course> adapterCT = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_spinner_item, arrayCourse);
         spinnerCursosTotales.setAdapter(adapterCT);
 
-        ArrayAdapter<Course> adapterCI= new ArrayAdapter<Course>(this.getContext(),android.R.layout.simple_spinner_item, arrayCourseIniciat);
+        ArrayAdapter<Course> adapterCI= new ArrayAdapter<>(this.getContext(),android.R.layout.simple_spinner_item, arrayCourseIniciat);
         spinnerCursosIniciados.setAdapter(adapterCI);
 
         // detecta cuando selecciono algo nuevo en el spinner
@@ -112,7 +98,7 @@ public class CursFragment extends Fragment {
                     Category c;
                     datosAuxCurso.clear();
                     Course cursActual = adapterCI.getItem(position);
-                    List<Category> categories = cursActual.getCategories();
+                    List<Category> categories = getMockupCategories();
 
                     for (int i = 0; i < categories.size(); i++) {
                         c = categories.get(i);
@@ -139,7 +125,7 @@ public class CursFragment extends Fragment {
             s = new Scanner(i);
             courses.add(
                     new Course(
-                            Long.valueOf(s.next()),
+                            Long.parseLong(s.next()),
                             s.next(),
                             s.next(),
                             Boolean.valueOf(s.next())));
@@ -147,5 +133,16 @@ public class CursFragment extends Fragment {
         }
 
         return courses;
+    }
+
+    public List<Category> getMockupCategories() {
+        List<Category> categories = new ArrayList<>();
+        categories.add(new Category("Familia"));
+        categories.add(new Category("Animales"));
+        categories.add(new Category("Comida"));
+        categories.add(new Category("Saludos I"));
+        categories.add(new Category("Saludos II"));
+
+        return categories;
     }
 }

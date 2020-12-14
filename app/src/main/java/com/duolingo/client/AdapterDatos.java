@@ -48,7 +48,7 @@ public class AdapterDatos extends RecyclerView.Adapter<AdapterDatos.ViewHolderDa
             @Override
             public void onClick(View v) {
 
-                Level level = lastLevel(arrayCategory.get(position).getLevels());
+                Level level = lastLevel(getMockupLevels());
                 intent=new Intent(v.getContext(),ExerciseActivity.class);
                 intent.putExtra("level", level);
                 intent.putExtra("pos",0);
@@ -102,6 +102,16 @@ public class AdapterDatos extends RecyclerView.Adapter<AdapterDatos.ViewHolderDa
             }
         }
         return null;
+    }
+
+    public List<Level> getMockupLevels() {
+        List<Level> levels = new ArrayList<>();
+
+        for (int i = 1; i <= Math.random()*3+2; i++) {
+            levels.add(new Level("Level " + i));
+        }
+
+        return levels;
     }
 
 }
