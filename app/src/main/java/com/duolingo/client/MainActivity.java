@@ -8,12 +8,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import java.io.File;
+
+import xml.XML;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        File file = new File(getFilesDir()+"config.xml");
+        if (!file.exists()) {
+                XML createXML = new XML();
+                createXML.readXML(getFilesDir());
+        }
 
         final Button buttonCurs=findViewById(R.id.curs);
         final Button buttonLliga=findViewById(R.id.lliga);

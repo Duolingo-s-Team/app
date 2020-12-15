@@ -1,13 +1,13 @@
 package com.duolingo.client;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.duolingo.client.rmi.ClienteRMI;
 import com.duolingo.client.rmi.models.Category;
 import com.duolingo.client.rmi.models.Course;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
 
 public class CursFragment extends Fragment {
 
@@ -50,12 +52,12 @@ public class CursFragment extends Fragment {
         arrayCourse.clear();
         arrayCourse.add(new Course("Loading", "Please wait..."));
 
-        try {
-            arrayCourse = parseToCourse(new ClienteRMI().execute().get(10, TimeUnit.SECONDS));
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        } catch (TimeoutException e) {
-            System.out.println("Time out");
+        ArrayList<Course> courses = connection();
+
+        if (courses.size() > 1) {
+            arrayCourse = courses;
+        } else {
+            Toast.makeText(getContext(), "Conexion fallida", Toast.LENGTH_SHORT);
         }
 
         arrayCourseIniciat = new ArrayList<>();
@@ -97,7 +99,6 @@ public class CursFragment extends Fragment {
                 if(position!=0) {
                     Category c;
                     datosAuxCurso.clear();
-                    Course cursActual = adapterCI.getItem(position);
                     List<Category> categories = getMockupCategories();
 
                     for (int i = 0; i < categories.size(); i++) {
@@ -117,6 +118,7 @@ public class CursFragment extends Fragment {
 
     }
 
+
     public ArrayList<Course> parseToCourse(ArrayList<String> courseNames) {
         ArrayList<Course> courses = new ArrayList<>();
 
@@ -133,7 +135,6 @@ public class CursFragment extends Fragment {
                 s.close();
             }
         }
-
         return courses;
     }
 
@@ -147,4 +148,19 @@ public class CursFragment extends Fragment {
 
         return categories;
     }
+
+    public ArrayList<Course> connection(){
+
+        try {
+            return parseToCourse(new ClienteRMI().execute().get(10, TimeUnit.SECONDS));
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            System.out.println("Time out");
+        }
+        return new ArrayList<Course>();
+    }
+
 }
