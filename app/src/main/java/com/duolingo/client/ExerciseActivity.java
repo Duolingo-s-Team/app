@@ -1,17 +1,17 @@
 package com.duolingo.client;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.duolingo.client.models.Exercise;
+import com.duolingo.client.models.Level;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
@@ -19,7 +19,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 public class ExerciseActivity extends AppCompatActivity {

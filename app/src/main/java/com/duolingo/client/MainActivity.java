@@ -1,14 +1,17 @@
 package com.duolingo.client;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.ArrayList;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import java.io.File;
+
+import xml.XML;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,6 +20,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        File file = new File(getFilesDir()+"config.xml");
+        if (!file.exists()) {
+                XML createXML = new XML();
+                createXML.readXML(getFilesDir());
+        }
 
 
         final Button buttonCurs=findViewById(R.id.curs);

@@ -1,20 +1,19 @@
 package com.duolingo.client;
 
-import android.content.*;
-import android.os.Bundle;
-import android.os.Parcelable;
-import android.sax.StartElementListener;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import  java.io.Serializable;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.duolingo.client.models.Category;
+import com.duolingo.client.models.Exercise;
+import com.duolingo.client.models.Level;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,4 @@
-package com.duolingo.client;
-import android.os.Parcel;
-import android.os.Parcelable;
+package com.duolingo.client.models;
 
 import java.io.Serializable;
 

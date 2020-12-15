@@ -1,6 +1,5 @@
 package com.duolingo.client;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,15 +8,17 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
+
+import com.duolingo.client.models.Category;
+import com.duolingo.client.models.Course;
+import com.duolingo.client.models.Exercise;
+import com.duolingo.client.models.Level;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,7 +129,6 @@ public class CursFragment extends Fragment {
     }
 
     private void llenarDatos() {
-
         ArrayList<Exercise>exercises = new ArrayList<Exercise>();
         ArrayList<Exercise>exercises1 = new ArrayList<Exercise>();
         Exercise e1=new Exercise("e1", 5,"{\n" +
