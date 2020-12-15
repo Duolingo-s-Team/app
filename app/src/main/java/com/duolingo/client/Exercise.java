@@ -10,12 +10,12 @@ public class Exercise implements Serializable {
 
     private String exercise_name;
     private int exercise_exp;
-    private byte[] content;
+    private String content;
 
     // Constructors
 
 
-    public Exercise(String exercise_name, int exercise_exp, byte[] content) {
+    public Exercise(String exercise_name, int exercise_exp, String content) {
         super();
         this.exercise_name = exercise_name;
         this.exercise_exp = exercise_exp;
@@ -53,7 +53,7 @@ public class Exercise implements Serializable {
         this.exercise_exp = exercise_exp;
     }
 
-    public byte[] getContent() {
+    public String getContent() {
         return content;
     }
 

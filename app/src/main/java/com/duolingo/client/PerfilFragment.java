@@ -13,8 +13,25 @@ import androidx.fragment.app.Fragment;
 public class PerfilFragment extends Fragment {
 
 
-    int coins=5;
-    int points=234;
+    private static int coins;
+    private static int points;
+
+    public static int getCoins() {
+        return coins;
+    }
+
+    public static void setCoins(int coins) {
+        PerfilFragment.coins = coins;
+    }
+
+    public static int getPoints() {
+        return points;
+    }
+
+    public static void setPoints(int points) {
+        PerfilFragment.points = points;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -29,8 +46,11 @@ public class PerfilFragment extends Fragment {
         TextView textCoin = view.findViewById(R.id.textCoin);
         TextView textPoints = view.findViewById(R.id.textPoints);
 
-        textCoin.setText(": "+Integer.toString(coins));
-        textPoints.setText(": "+Integer.toString(points));
+        textCoin.setText(": "+Integer.toString(getCoins()));
+        textPoints.setText(": "+Integer.toString(getPoints()));
 
     }
+
+
+
 }

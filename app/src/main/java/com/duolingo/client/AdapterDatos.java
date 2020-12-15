@@ -93,7 +93,6 @@ public class AdapterDatos extends RecyclerView.Adapter<AdapterDatos.ViewHolderDa
     public Level lastLevel(List<Level> datos){
 
         for (Level l : datos) {
-            Log.v("Level name: ", l.getLevel_name());
             if(!l.isComplete()){
               return l;
             }

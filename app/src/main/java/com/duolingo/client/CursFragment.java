@@ -131,16 +131,36 @@ public class CursFragment extends Fragment {
 
         ArrayList<Exercise>exercises = new ArrayList<Exercise>();
         ArrayList<Exercise>exercises1 = new ArrayList<Exercise>();
-        Exercise e1=new Exercise("e1", 5);
-        Exercise e2=new Exercise("e2", 5);
-        Exercise e3=new Exercise("e3", 5);
+        Exercise e1=new Exercise("e1", 5,"{\n" +
+                "    \"Exercise_Type\": \"TIPUS_TEST\",\n" +
+                "    \"exersiceExp\": 50,\n" +
+                "    \"exersiceCoins\": 10,\n" +
+                "    \"sentenceToTranslate\": \"My name is Paco\",\n" +
+                "    \"Correct_Answer\": \"Mi nombre es Paco\",\n" +
+                "    \"Wrong_Answers\": [\n" +
+                "        \"El mio nombre es Paco\",\n" +
+                "        \"Mi llamo Paco\"\n" +
+                "    ]\n" +
+                "}");
+        Exercise e2=new Exercise("e2", 5,"{\n" +
+                "    \"Exercise_Type\": \"TIPUS_TEST\",\n" +
+                "    \"exersiceExp\": 50,\n "+
+                "    \"exersiceCoins\": 10,\n" +
+                "    \"sentenceToTranslate\": \"Hello\",\n" +
+                "    \"Correct_Answer\": \"Hola\",\n" +
+                "    \"Wrong_Answers\": [\n" +
+                "        \"Adios\",\n" +
+                "        \"Sayonara\"\n" +
+                "    ]\n" +
+                "}");
+        Exercise e3=new Exercise("e3", 5,"");
         Exercise e4=new Exercise("e4", 5);
         Exercise e5=new Exercise("e5", 5);
         exercises.add(e1);
         exercises.add(e2);
-        exercises.add(e3);
-        exercises.add(e4);
-        exercises.add(e5);
+        //exercises.add(e3);
+        //exercises.add(e4);
+        //exercises.add(e5);
         exercises1.add(e1);
         exercises1.add(e2);
         Category c1 = new Category("Mascotas");
