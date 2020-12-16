@@ -199,7 +199,7 @@ public class ExerciseActivity extends AppCompatActivity {
         List<Exercise> exercises = new ArrayList<>();
 
         for (int i = 1; i <= Math.random()*5+1; i++) {
-            exercises.add(new Exercise("Saludos 1", "{\"Exercise_Type\":\"TIPUS_TEST\", \"exerciseExp\": 25, \"exerciseCoins\": 10,\"sentenceToTranslate\":\"Hello, my name is Jason\",\"Correct_Answer\":\"Hola, me llamo es Jason\",\"Wrong_Answers\":[\"Hola, Jason me llamo yo\",\"Hola, mi nombre me llamo Jason\"]}"));
+            exercises.add(new Exercise("Saludos 1", "{\"Exercise_Type\":\"TIPUS_TEST\", \"exerciseExp\": 25, \"exerciseCoins\": 10,\"sentenceToTranslate\":\"Hello, my name is Jason\",\"Correct_Answer\":\"Hola, me llamo Jason\",\"Wrong_Answers\":[\"Hola, Jason me llamo yo\",\"Hola, mi nombre me llamo Jason\"]}"));
         }
 
         return exercises;
