@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -100,8 +101,8 @@ public class ExerciseActivity extends AppCompatActivity {
             //Coge los elementos del json y los pone en variables
             JSONObject jsonObject=new JSONObject(content);
             title.setText(jsonObject.getString("sentenceToTranslate"));
-            int exp=jsonObject.getInt("exersiceExp");
-            int coins=jsonObject.getInt("exersiceCoins");
+            int exp=jsonObject.getInt("exerciseExp");
+            int coins=jsonObject.getInt("exerciseCoins");
             JSONArray jsonArray=jsonObject.getJSONArray("Wrong_Answers");
             String text1=jsonArray.getString(0);
             String text2=jsonArray.getString(1);
@@ -113,6 +114,7 @@ public class ExerciseActivity extends AppCompatActivity {
             lista.add(text2);
             lista.add(text3);
             Collections.shuffle(lista);
+            Log.v("DEBUG", "LOL" + lista.toString());
             ba1.setText(lista.get(0));
             ba2.setText(lista.get(1));
             ba3.setText(lista.get(2));
@@ -182,9 +184,7 @@ public class ExerciseActivity extends AppCompatActivity {
                             error=true;
                             snackbar.show();
                         }
-
                     }
-
                 }
             });
 
@@ -199,7 +199,7 @@ public class ExerciseActivity extends AppCompatActivity {
         List<Exercise> exercises = new ArrayList<>();
 
         for (int i = 1; i <= Math.random()*5+1; i++) {
-            exercises.add(new Exercise("Saludos 1", 25, "{\"Exercise_Type\":\"TIPUS_TEST\",\"sentenceToTranslate\":\"Hello, my name is Jason\",\"Correct_Answer\":\"Hola, me llamo es Jason\",\"Wrong_Answers\":[\"Hola, Jason me llamo yo\",\"Hola, mi nombre me llamo Jason\"]}"));
+            exercises.add(new Exercise("Saludos 1", "{\"Exercise_Type\":\"TIPUS_TEST\", \"exerciseExp\": 25, \"exerciseCoins\": 10,\"sentenceToTranslate\":\"Hello, my name is Jason\",\"Correct_Answer\":\"Hola, me llamo es Jason\",\"Wrong_Answers\":[\"Hola, Jason me llamo yo\",\"Hola, mi nombre me llamo Jason\"]}"));
         }
 
         return exercises;

@@ -8,7 +8,6 @@ public class Exercise implements Serializable {
 
 	private long exercise_id;
 	private String exercise_name;
-	private int exercise_exp;
 	private String content;
 	private boolean isFinished;
 
@@ -22,13 +21,19 @@ public class Exercise implements Serializable {
 		this.types = new ArrayList<ExerciseType>();
 	}
 	
-	public Exercise(String exercise_name, int exercise_exp, String content) {
+	public Exercise(String exercise_name, String content) {
 		super();
 		this.exercise_name = exercise_name;
-		this.exercise_exp = exercise_exp;
 		this.content = content;
 		this.users = new ArrayList<User>();
 		this.types = new ArrayList<ExerciseType>();
+	}
+
+	public Exercise(String exercise_name, String content, Level level) {
+		super();
+		this.exercise_name = exercise_name;
+		this.content = content;
+		this.level = level;
 	}
 
 	// Getters && Setters:
@@ -46,14 +51,6 @@ public class Exercise implements Serializable {
 
 	public void setExercise_name(String exercise_name) {
 		this.exercise_name = exercise_name;
-	}
-
-	public int getExercise_exp() {
-		return exercise_exp;
-	}
-
-	public void setExercise_exp(int exercise_exp) {
-		this.exercise_exp = exercise_exp;
 	}
 
 	public String getContent() {
