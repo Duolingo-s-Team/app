@@ -45,8 +45,9 @@ public class AdapterDatos extends RecyclerView.Adapter<AdapterDatos.ViewHolderDa
 
                 Level level = lastLevel(getMockupLevels());
                 //condicion if del tipo de ejercicio, puede ser test o traduccion, dependiendo de eso se abre un intent con una clase u otra
-                intent=new Intent(v.getContext(),ExerciseActivity.class);
-                intent.putExtra("level", level);
+
+                intent=new Intent(v.getContext(), ExerciseTestActivity.class);
+                intent.putExtra("lvl", level);
                 intent.putExtra("pos",0);
                 v.getContext().startActivity(intent);
             }
@@ -79,7 +80,6 @@ public class AdapterDatos extends RecyclerView.Adapter<AdapterDatos.ViewHolderDa
     public int levelCounter(List<Level> datos){
         int num=0;
         for (Level l : datos) {
-            Log.v("Level name: ", l.getLevel_name());
             if(l.isComplete()){
                 num++;
             } else {
@@ -103,7 +103,12 @@ public class AdapterDatos extends RecyclerView.Adapter<AdapterDatos.ViewHolderDa
         List<Level> levels = new ArrayList<>();
 
         for (int i = 1; i <= Math.random()*3+2; i++) {
-            levels.add(new Level("Level " + i));
+            Level lvl =new Level("Level " + i);
+            lvl.addExercise(new Exercise("Saludos 1", "{\"Exercise_Type\":\"TIPUS_TEST\", \"exerciseExp\": 25, \"exerciseCoins\": 10,\"sentenceToTranslate\":\"Hello, my name is Jason\",\"Correct_Answer\":\"Hola, me llamo Jason\",\"Wrong_Answers\":[\"Hola, Jason me llamo yo\",\"Hola, mi nombre me llamo Jason\"]}"));
+            lvl.addExercise(new Exercise("Saludos 2", "{\"Exercise_Type\":\"TIPUS_TRADUCCIO_OBERTA\", \"exerciseExp\": 50, \"exerciseCoins\": 20,\"sentenceToTranslate\":\"Hello world\",\"Correct_Answer\":[\"Hola mundo\"]}"));
+            lvl.addExercise(new Exercise("Saludos 3", "{\"Exercise_Type\":\"TIPUS_TRADUCCIO_OBERTA\", \"exerciseExp\": 50, \"exerciseCoins\": 20,\"sentenceToTranslate\":\"Hello world\",\"Correct_Answer\":[\"Hola mundo\"]}"));
+            lvl.addExercise(new Exercise("Saludos 4", "{\"Exercise_Type\":\"TIPUS_TEST\", \"exerciseExp\": 25, \"exerciseCoins\": 10,\"sentenceToTranslate\":\"Hello, my name is Dani\",\"Correct_Answer\":\"Hola, me llamo Dani\",\"Wrong_Answers\":[\"Hola, Dani me llamo yo\",\"Hola, mi nombre me llamo Dani\"]}"));
+            levels.add(lvl);
         }
 
         return levels;

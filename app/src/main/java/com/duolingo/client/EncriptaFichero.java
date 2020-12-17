@@ -8,8 +8,8 @@ import java.io.*;
  
 public class EncriptaFichero implements Constantes 
 { 
- public static void main(String[] args) throws Exception 
-        { 
+ public static void main(String[] args) {
+   /*     {
          // Pedimos el fichero a encriptar  
          // y fichero de clave publica a usar 
 
@@ -71,6 +71,6 @@ public class EncriptaFichero implements Constantes
          cos.close(); 
          dos.close(); 
          System.out.println( 
-                "Fichero encriptado correctamente"); 
-        } 
+                "Fichero encriptado correctamente"); */
+        }
 } 

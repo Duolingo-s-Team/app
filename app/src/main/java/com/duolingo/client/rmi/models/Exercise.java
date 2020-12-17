@@ -92,4 +92,10 @@ public class Exercise implements Serializable {
 	public void addType(ExerciseType type) {
 		this.types.add(type);
 	}
+
+	@Override
+	public String toString() {
+		return "Exercise [exercise_id=" + exercise_id + ", exercise_name=" + exercise_name + ", content=" + content
+				+ ", isFinished=" + isFinished + "]";
+	}
 }

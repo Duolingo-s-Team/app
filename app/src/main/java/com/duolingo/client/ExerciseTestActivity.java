@@ -23,8 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ExerciseActivity extends AppCompatActivity {
-    AdapterDatos ad=new AdapterDatos();
+public class ExerciseTestActivity extends AppCompatActivity {
     ArrayList<Exercise> arrayExercises;
     int pos;
     Level lvl;
@@ -34,7 +33,7 @@ public class ExerciseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_exercise);
+        setContentView(R.layout.activity_test_exercise);
 
 
         TextView title=findViewById(R.id.textTitleExercise);
@@ -90,8 +89,8 @@ public class ExerciseActivity extends AppCompatActivity {
             if (extras != null) {
 
                pos=extras.getInt("pos");
-               lvl= (Level) extras.getSerializable("level");
-               arrayExercises= (ArrayList<Exercise>) getMockupExercises();
+               lvl= (Level) extras.getSerializable("lvl");
+               arrayExercises= (ArrayList<Exercise>) lvl.getExercises();
             }
         }
 
@@ -108,13 +107,11 @@ public class ExerciseActivity extends AppCompatActivity {
             String text2=jsonArray.getString(1);
             String text3=jsonObject.getString("Correct_Answer");
             String correct=jsonObject.getString("Correct_Answer");
-            System.out.println(jsonObject.getString("Correct_Answer"));
             ArrayList<String> lista=new ArrayList<>();
             lista.add(text1);
             lista.add(text2);
             lista.add(text3);
             Collections.shuffle(lista);
-            Log.v("DEBUG", "LOL" + lista.toString());
             ba1.setText(lista.get(0));
             ba2.setText(lista.get(1));
             ba3.setText(lista.get(2));
@@ -146,10 +143,8 @@ public class ExerciseActivity extends AppCompatActivity {
                             snackbar.setAction("Continuar", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    pos = pos + 1;
-                                    finish();
-                                    getIntent().putExtra("pos", pos);
-                                    startActivity(getIntent());
+                                    Intent intent = new Intent(v.getContext(), MainActivity.class);
+                                    startActivity(intent);
                                 }
                             });
                             error=true;
@@ -157,28 +152,63 @@ public class ExerciseActivity extends AppCompatActivity {
                         }
                     }else{
                         if (correct.equals(opcion)) {
-                            Snackbar snackbar = Snackbar.make(v, "La respuesta es correcta, has ganado "+exp+"de experiencia y "+coins+" monedas.", Snackbar.LENGTH_LONG);
+                            Snackbar snackbar = Snackbar.make(v, "La respuesta es correcta, has ganado "+exp+"de experiencia y "+coins+" monedas.", Snackbar.LENGTH_INDEFINITE);
                             snackbar.setAction("Continuar", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     pos = pos + 1;
                                     finish();
-                                    getIntent().putExtra("pos", pos);
-                                    startActivity(getIntent());
+                                    //comprovar el tipo de ejercicio y iniciar una activity u otra
+
+                                    try {
+                                        JSONObject json=new JSONObject( arrayExercises.get(pos).getContent());
+                                        if(String.valueOf(json.get("Exercise_Type")).equals("TIPUS_TEST")){
+
+                                            getIntent().putExtra("pos", pos);
+                                            getIntent().putExtra("level", lvl);
+                                            startActivity(getIntent());
+
+                                        }else{
+
+                                            Intent intent=new Intent(v.getContext(),ExerciseOpenTranslationActivity.class);
+                                            intent.putExtra("pos",pos);
+                                            intent.putExtra("lvl",lvl);
+                                            startActivity(intent);
+
+                                        }
+                                    } catch (JSONException jsonException) {
+                                        jsonException.printStackTrace();
+                                    }
+
                                 }
                             });
                             PerfilFragment.setCoins(PerfilFragment.getCoins()+coins);
                             PerfilFragment.setPoints(PerfilFragment.getPoints()+exp);
                             snackbar.show();
                         }else{
-                            Snackbar snackbar = Snackbar.make(v, "La respuesta es incorrecta", Snackbar.LENGTH_LONG);
+                            Snackbar snackbar = Snackbar.make(v, "La respuesta es incorrecta", Snackbar.LENGTH_INDEFINITE);
                             snackbar.setAction("Continuar", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     pos = pos + 1;
                                     finish();
-                                    getIntent().putExtra("pos", pos);
-                                    startActivity(getIntent());
+                                    arrayExercises.get(pos).getContent();
+                                    try {
+                                        JSONObject json=new JSONObject(content);
+                                        if(json.get("Exercise_Type").equals("TIPUS_TEST")){
+
+                                            getIntent().putExtra("pos", pos);
+                                            startActivity(getIntent());
+
+                                        }else{
+
+                                            Intent intent=new Intent(v.getContext(),ExerciseOpenTranslationActivity.class).putExtra("pos", pos);
+                                            startActivity(intent);
+
+                                        }
+                                    } catch (JSONException jsonException) {
+                                        jsonException.printStackTrace();
+                                    }
                                 }
                             });
                             error=true;
@@ -195,13 +225,5 @@ public class ExerciseActivity extends AppCompatActivity {
 
     }
 
-    public List<Exercise> getMockupExercises() {
-        List<Exercise> exercises = new ArrayList<>();
 
-        for (int i = 1; i <= Math.random()*5+1; i++) {
-            exercises.add(new Exercise("Saludos 1", "{\"Exercise_Type\":\"TIPUS_TEST\", \"exerciseExp\": 25, \"exerciseCoins\": 10,\"sentenceToTranslate\":\"Hello, my name is Jason\",\"Correct_Answer\":\"Hola, me llamo Jason\",\"Wrong_Answers\":[\"Hola, Jason me llamo yo\",\"Hola, mi nombre me llamo Jason\"]}"));
-        }
-
-        return exercises;
-    }
 }
