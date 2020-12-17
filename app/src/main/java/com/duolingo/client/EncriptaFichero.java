@@ -21,10 +21,10 @@ public class EncriptaFichero implements Constantes
             } 
          String fichero_encriptado = fichero_encriptar + ".crypto";
          //System.out.print("Indique que fichero tiene la clave publica a usar:");
-         String fichero_publica = teclado.readLine(); 
+         String fichero_publica = new String(); //= teclado.readLine(); <-----------------------------------------------------------------
           
          // Recuperamos la clave publica 
-         FileInputStream fis = new FileInputStream(fichero_publica); 
+         FileInputStream fis = new FileInputStream(fichero_publica);
          byte[] buffer = new byte[fis.available()]; 
          fis.read(buffer); 
          X509EncodedKeySpec clave_publica_spec = new X509EncodedKeySpec(buffer); 

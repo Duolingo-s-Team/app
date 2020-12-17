@@ -14,8 +14,21 @@ import javax.xml.transform.stream.StreamResult;
 
 public class XML {
 
-    public static boolean readXML(File path){
+    private static XML constructor;
 
+    public static XML getConstructor() {
+        if (constructor == null)
+            return new XML();
+        else {
+            return constructor;
+        }
+    }
+
+    private XML() {
+
+    }
+
+    public boolean readXML(File path) {
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -53,8 +66,5 @@ public class XML {
         return true;
 
     }
-
-
-
 
 }

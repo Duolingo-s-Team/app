@@ -19,11 +19,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        File file = new File(getFilesDir()+"config.xml");
-        if (!file.exists()) {
-                XML createXML = new XML();
-                createXML.readXML(getFilesDir());
-        }
+        // Load config from XML
+        loadConfig();
 
         final Button buttonCurs=findViewById(R.id.curs);
         final Button buttonLliga=findViewById(R.id.lliga);
@@ -88,7 +85,13 @@ public class MainActivity extends AppCompatActivity {
                 ft.commit();
             }
         });
+    }
 
+    public void loadConfig() {
+        if (!(new File(getFilesDir()+"config.xml").exists())) {
+            XML createXML = XML.getConstructor();
+            createXML.readXML(getFilesDir());
+        }
     }
 
 }
