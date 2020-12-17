@@ -44,6 +44,7 @@ public class AdapterDatos extends RecyclerView.Adapter<AdapterDatos.ViewHolderDa
             public void onClick(View v) {
 
                 Level level = lastLevel(getMockupLevels());
+                //condicion if del tipo de ejercicio, puede ser test o traduccion, dependiendo de eso se abre un intent con una clase u otra
                 intent=new Intent(v.getContext(),ExerciseActivity.class);
                 intent.putExtra("level", level);
                 intent.putExtra("pos",0);

@@ -61,6 +61,7 @@ public class CursFragment extends Fragment {
         }
 
         arrayCourseIniciat = new ArrayList<>();
+        arrayCourseIniciat.add(new Course("Cursos", "Iniciados"));
 
         recycler = view.findViewById(R.id.RecyclerId);
         recycler.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -150,9 +151,11 @@ public class CursFragment extends Fragment {
     }
 
     public ArrayList<Course> connection(){
-
+        ArrayList<Course> aux=new ArrayList<>();
+        aux.add(new Course("Cursos","Totales"));
         try {
-            return parseToCourse(new ClienteRMI().execute().get(10, TimeUnit.SECONDS));
+            aux.addAll(parseToCourse(new ClienteRMI().execute().get(10, TimeUnit.SECONDS)));
+            return aux;
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -160,7 +163,7 @@ public class CursFragment extends Fragment {
         } catch (TimeoutException e) {
             System.out.println("Time out");
         }
-        return new ArrayList<Course>();
+        return aux;
     }
 
 }
