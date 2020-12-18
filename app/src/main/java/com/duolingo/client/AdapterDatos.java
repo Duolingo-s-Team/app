@@ -15,6 +15,9 @@ import com.duolingo.client.rmi.models.Category;
 import com.duolingo.client.rmi.models.Exercise;
 import com.duolingo.client.rmi.models.Level;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,11 +48,30 @@ public class AdapterDatos extends RecyclerView.Adapter<AdapterDatos.ViewHolderDa
 
                 Level level = lastLevel(getMockupLevels());
                 //condicion if del tipo de ejercicio, puede ser test o traduccion, dependiendo de eso se abre un intent con una clase u otra
+                ArrayList<Exercise> arrayExercises = (ArrayList<Exercise>) level.getExercises();
+                JSONObject json= null;
+                try {
+                    json = new JSONObject(arrayExercises.get(0).getContent());
+                    if(String.valueOf(json.get("Exercise_Type")).equals("TIPUS_TEST")) {
 
-                intent=new Intent(v.getContext(), ExerciseTestActivity.class);
-                intent.putExtra("lvl", level);
-                intent.putExtra("pos",0);
-                v.getContext().startActivity(intent);
+                            intent = new Intent(v.getContext(), ExerciseTestActivity.class);
+                            intent.putExtra("lvl", level);
+                            intent.putExtra("pos", 0);
+                            intent.putExtra("error", false);
+                            v.getContext().startActivity(intent);
+                    }else{
+
+                        intent = new Intent(v.getContext(), ExerciseOpenTranslationActivity.class);
+                        intent.putExtra("lvl", level);
+                        intent.putExtra("pos", 0);
+                        intent.putExtra("error", false);
+                        v.getContext().startActivity(intent);
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
     }

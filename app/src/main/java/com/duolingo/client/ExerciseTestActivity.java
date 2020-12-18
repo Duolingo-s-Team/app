@@ -87,7 +87,7 @@ public class ExerciseTestActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
-
+               error=extras.getBoolean("error");
                pos=extras.getInt("pos");
                lvl= (Level) extras.getSerializable("lvl");
                arrayExercises= (ArrayList<Exercise>) lvl.getExercises();
@@ -121,7 +121,7 @@ public class ExerciseTestActivity extends AppCompatActivity {
 
                     if (pos == arrayExercises.size() - 1) {
                         if (correct.equals(opcion)) {
-                            Snackbar snackbar = Snackbar.make(v, "La respuesta es correcta, has ganado "+exp+"de experiencia y "+coins+" monedas.", Snackbar.LENGTH_LONG);
+                            Snackbar snackbar = Snackbar.make(v, "Correcto, "+exp+"  exp y "+coins+" monedas. Error="+error, Snackbar.LENGTH_LONG);
                             snackbar.setAction("Continuar", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -152,7 +152,7 @@ public class ExerciseTestActivity extends AppCompatActivity {
                         }
                     }else{
                         if (correct.equals(opcion)) {
-                            Snackbar snackbar = Snackbar.make(v, "La respuesta es correcta, has ganado "+exp+"de experiencia y "+coins+" monedas.", Snackbar.LENGTH_INDEFINITE);
+                            Snackbar snackbar = Snackbar.make(v, "Correcto, has ganado "+exp+"  exp y "+coins+" monedas.", Snackbar.LENGTH_INDEFINITE);
                             snackbar.setAction("Continuar", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -171,6 +171,7 @@ public class ExerciseTestActivity extends AppCompatActivity {
                                         }else{
 
                                             Intent intent=new Intent(v.getContext(),ExerciseOpenTranslationActivity.class);
+                                            intent.putExtra("error",error);
                                             intent.putExtra("pos",pos);
                                             intent.putExtra("lvl",lvl);
                                             startActivity(intent);
@@ -203,6 +204,8 @@ public class ExerciseTestActivity extends AppCompatActivity {
                                         }else{
 
                                             Intent intent=new Intent(v.getContext(),ExerciseOpenTranslationActivity.class).putExtra("pos", pos);
+                                            intent.putExtra("lvl", lvl);
+                                            intent.putExtra("error",error);
                                             startActivity(intent);
 
                                         }

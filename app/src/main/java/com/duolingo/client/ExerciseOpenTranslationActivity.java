@@ -43,6 +43,7 @@ public class ExerciseOpenTranslationActivity extends AppCompatActivity {
 
                 pos=extras.getInt("pos");
                 lvl= (Level) extras.getSerializable("lvl");
+                error=extras.getBoolean("error");
                 arrayExercises= (ArrayList<Exercise>) lvl.getExercises();
             }
         }
@@ -73,10 +74,16 @@ public class ExerciseOpenTranslationActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     if (pos == arrayExercises.size() - 1) {
                         String s=editText.getText().toString();
-
+                        s=fixInput(s);
                         for(String string : list){
+                            string=fixInput(string);
                             if(string.equals(s)){
-                                Snackbar snackbar = Snackbar.make(v, "La respuesta es correcta, has ganado "+exp+"de experiencia y "+coins+" monedas.", Snackbar.LENGTH_LONG);
+                                match=true;
+                            }
+                        }
+
+                        if(match){
+                                Snackbar snackbar = Snackbar.make(v, "Correcto, has ganado "+exp+"  exp y "+coins+" monedas.", Snackbar.LENGTH_LONG);
                                 snackbar.setAction("Continuar", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -92,32 +99,30 @@ public class ExerciseOpenTranslationActivity extends AppCompatActivity {
                                     PerfilFragment.setPoints(PerfilFragment.getPoints()+exp);
                                 }
                                 snackbar.show();
-                            }
+                        }else {
+                            error = true;
+                            Snackbar snackbar = Snackbar.make(v, "La respuesta es incorrecta", Snackbar.LENGTH_LONG);
+                            snackbar.setAction("Continuar", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(v.getContext(), MainActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
+
+                            snackbar.show();
                         }
-                        Snackbar snackbar = Snackbar.make(v, "La respuesta es incorrecta", Snackbar.LENGTH_LONG);
-                        snackbar.setAction("Continuar", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(v.getContext(), MainActivity.class);
-                                startActivity(intent);
-                            }
-                        });
-                        error=true;
-                        snackbar.show();
                     }else{
                         String s=editText.getText().toString();
                         s=fixInput(s);
                         for(String string : list){
                             string=fixInput(string);
-                            Log.v("DEBUG", string);
-                            Log.v("DEBUG", "textobueno"+s);
                             if(string.equals(s)){
                                 match=true;
                             }
                         }
                         if(match){
-                            Log.v("DEBUG","entra bien");
-                            Snackbar snackbar = Snackbar.make(v, "La respuesta es correcta, has ganado "+exp+" de experiencia y "+coins+" monedas.", Snackbar.LENGTH_INDEFINITE);
+                            Snackbar snackbar = Snackbar.make(v, "Correcto, has ganado "+exp+"  exp y "+coins+" monedas. Error="+error, Snackbar.LENGTH_INDEFINITE);
                             snackbar.setAction("Continuar", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -131,6 +136,7 @@ public class ExerciseOpenTranslationActivity extends AppCompatActivity {
 
                                             Intent intent=new Intent(v.getContext(),ExerciseTestActivity.class).putExtra("pos", pos);
                                             intent.putExtra("lvl",lvl);
+                                            intent.putExtra("error",error);
                                             startActivity(intent);
 
                                         }else{
@@ -149,6 +155,7 @@ public class ExerciseOpenTranslationActivity extends AppCompatActivity {
                             snackbar.show();
 
                         }else{
+                            error=true;
                             Snackbar snackbar = Snackbar.make(v, "La respuesta es incorrecta", Snackbar.LENGTH_INDEFINITE);
                             snackbar.setAction("Continuar", new View.OnClickListener() {
                                 @Override
@@ -162,11 +169,13 @@ public class ExerciseOpenTranslationActivity extends AppCompatActivity {
 
                                             Intent intent=new Intent(v.getContext(),ExerciseTestActivity.class).putExtra("pos", pos);
                                             intent.putExtra("lvl",lvl);
+                                            intent.putExtra("error",error);
                                             startActivity(intent);
 
                                         }else{
                                             getIntent().putExtra("level", lvl);
                                             getIntent().putExtra("pos", pos);
+                                            getIntent().putExtra("error",error);
                                             startActivity(getIntent());
                                         }
                                     } catch (JSONException jsonException) {
@@ -174,7 +183,7 @@ public class ExerciseOpenTranslationActivity extends AppCompatActivity {
                                     }
                                 }
                             });
-                            error=true;
+
                             snackbar.show();
                         }
 
